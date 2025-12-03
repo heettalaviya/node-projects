@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>FitZone - Home | Heet Talaviya</title>
+  <style>
+    :root{
+      --bg:#f3f6fb;
+      --card:#ffffff;
+      --accent:#ff5a5f;
+      --accent-2:#1e90ff;
+      --muted:#6b7280;
+      --glass: rgba(255,255,255,0.6);
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+      background: linear-gradient(180deg, #eef3fb 0%, var(--bg) 100%);
+      color:#1f2937;
+      -webkit-font-smoothing:antialiased;
+    }
+
+    /* HEADER */
+    header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:18px 28px;
+      background:var(--card);
+      box-shadow:0 4px 18px rgba(20,25,30,0.06);
+      position:sticky;
+      top:0;
+      z-index:50;
+    }
+    .logo{
+      display:flex;
+      gap:12px;
+      align-items:center;
+      font-weight:700;
+      color:#0b1220;
+      font-size:18px;
+    }
+    .logo .mark{
+      width:44px;height:44px;border-radius:10px;
+      display:flex;align-items:center;justify-content:center;
+      background: linear-gradient(135deg,var(--accent),var(--accent-2));
+      color:white;font-weight:800;font-size:18px;
+      box-shadow:0 6px 18px rgba(30,40,60,0.12);
+    }
+    nav a{
+      margin:0 12px;
+      text-decoration:none;
+      color:var(--muted);
+      font-weight:600;
+    }
+    .cta{
+      background:linear-gradient(90deg,var(--accent),var(--accent-2));
+      color:white;padding:10px 16px;border-radius:10px;border:none;
+      font-weight:700;text-decoration:none;
+      box-shadow:0 6px 20px rgba(30,40,60,0.12);
+    }
+
+    /* HERO */
+    .hero{
+      display:flex;
+      gap:40px;
+      align-items:center;
+      justify-content:space-between;
+      padding:56px 6%;
+      max-width:1200px;margin:28px auto;
+      background:linear-gradient(180deg, rgba(255,255,255,0.6), rgba(255,255,255,0.35));
+      border-radius:18px;
+      box-shadow:0 10px 30px rgba(16,24,40,0.06);
+      overflow:hidden;
+    }
+    .hero-left{max-width:58%}
+    .hero h1{
+      margin:0 0 12px 0;
+      font-size:36px;
+      line-height:1.05;
+      color:#081126;
+    }
+    .hero p.lead{
+      margin:0 0 20px 0;
+      color:var(--muted);
+      font-size:16px;
+    }
+    .hero .buttons{display:flex;gap:12px;flex-wrap:wrap}
+    .btn-outline{
+      padding:10px 16px;border-radius:10px;border:2px solid var(--accent);
+      background:transparent;color:var(--accent);font-weight:700;text-decoration:none;
+    }
+    .stats{
+      display:flex;gap:18px;margin-top:18px;
+    }
+    .stat{
+      background:rgba(255,255,255,0.7);
+      padding:12px 14px;border-radius:10px;font-weight:700;
+      box-shadow:0 6px 18px rgba(20,25,30,0.04);
+    }
+
+    /* HERO RIGHT IMAGE */
+    .hero-right{
+      width:360px;height:340px;border-radius:14px;
+      background:
+        linear-gradient(180deg, rgba(0,0,0,0.18), rgba(0,0,0,0.06)),
+        url('https://www.freepik.com/free-photo/confident-sportsman-with-headphones-jumping-rope_6802061.htm#fromView=keyword&page=1&position=14&uuid=c97c6598-abe4-42ce-93d4-dc3c6dc6e24a&query=Personal+trainer') center/cover no-repeat;
+      box-shadow:0 12px 40px rgba(12,18,30,0.12), inset 0 -20px 60px rgba(0,0,0,0.15);
+      display:flex;flex-direction:column;justify-content:flex-end;padding:18px;
+      color:white;
+    }
+    .hero-right .card{
+      background:rgba(255,255,255,0.06);backdrop-filter: blur(6px);
+      padding:10px 12px;border-radius:10px;font-weight:700;
+    }
+
+    /* SECTIONS */
+    .container{max-width:1200px;margin:34px auto;padding:0 6%;}
+    .section-title{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
+    .section-title h2{margin:0;font-size:20px}
+    .grid{display:grid;gap:18px}
+    /* services */
+    .services .grid{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+    .card-service{
+      background:var(--card);padding:18px;border-radius:12px;
+      box-shadow:0 6px 18px rgba(20,25,30,0.04);display:flex;gap:12px;align-items:flex-start;
+    }
+    .svc-icon{
+      width:56px;height:56px;border-radius:10px;display:flex;align-items:center;justify-content:center;
+      background:linear-gradient(135deg,var(--accent),var(--accent-2));color:white;font-weight:800;font-size:20px;
+      flex-shrink:0;
+    }
+    .card-service h3{margin:0 0 6px 0;font-size:16px}
+    .card-service p{margin:0;color:var(--muted);font-size:14px}
+
+    /* classes */
+    .classes .grid{grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+    .class-card{
+      border-radius:12px;overflow:hidden;background:linear-gradient(180deg,#fff,#fff);
+      box-shadow:0 8px 22px rgba(20,25,30,0.06);
+    }
+    .class-card img{width:100%;height:140px;object-fit:cover;display:block}
+    .class-card .body{padding:12px}
+    .class-card h4{margin:0 0 8px 0}
+    .class-card p{margin:0;color:var(--muted);font-size:14px}
+
+    /* trainers */
+    .trainers .grid{grid-template-columns:repeat(auto-fit,minmax(160px,1fr))}
+    .trainer{
+      background:var(--card);padding:14px;border-radius:12px;text-align:center;
+      box-shadow:0 6px 18px rgba(20,25,30,0.04);
+    }
+    .trainer img{width:88px;height:88px;border-radius:50%;object-fit:cover;margin-bottom:10px}
+
+    /* footer */
+    footer{padding:28px 6%;margin-top:28px;background:transparent;color:var(--muted)}
+    .footer-grid{display:flex;flex-wrap:wrap;gap:18px;justify-content:space-between;align-items:center}
+
+    /* responsive */
+    @media (max-width:900px){
+      .hero{flex-direction:column;align-items:flex-start;padding:28px;gap:18px}
+      .hero-left{max-width:100%}
+      .hero-right{width:100%;height:220px;border-radius:12px}
+      .stats{flex-wrap:wrap}
+    }
+    @media (max-width:520px){
+      header{padding:12px 16px}
+      .logo{font-size:16px}
+      .hero h1{font-size:26px}
+      .hero p.lead{font-size:14px}
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="logo">
+      <div class="mark">FZ</div>
+      <div>
+        <div style="font-size:14px">FitZone</div>
+        <div style="font-size:12px;color:var(--muted);font-weight:600">Train • Transform • Thrive</div>
+      </div>
+    </div>
+
+   <nav style="display:flex;align-items:center;gap:8px">
+    <a href="/home.html" aria-current="page">Home</a>
+    <a href="/about.html">About</a>
+    <a href="/contect.html">Contact</a>
+    <a href="/home.html#classes">Classes</a>
+    <a href="/home.html#trainers">Trainers</a>
+    <a href="/home.html#join" class="cta">Join Now</a>
+</nav>
+
+  </header>
+
+  <!-- HERO -->
+  <section class="hero" role="region" aria-label="Hero">
+    <div class="hero-left">
+      <h1>Get Fit. Stay Strong. Feel Confident.</h1>
+      <p class="lead">Hands-on fitness training, group classes, and personalised plans — built for beginners and gym pros alike.</p>
+
+      <div class="buttons">
+        <a class="cta" href="#join">Start Free Trial</a>
+        <a class="btn-outline" href="#classes">View Classes</a>
+      </div>
+
+      <div class="stats" style="margin-top:18px;">
+        <div class="stat">10+ Live Classes / Week</div>
+        <div class="stat">20+ Certified Trainers</div>
+        <div class="stat">500+ Happy Members</div>
+      </div>
+    </div>
+
+    
+  </section>
+
+  <!-- SERVICES -->
+  <div class="container services">
+    <div class="section-title">
+      <h2>What We Offer</h2>
+      <div style="color:var(--muted);font-weight:600">Choose a plan that fits you</div>
+    </div>
+
+    <div class="grid">
+      <div class="card-service">
+        <div class="svc-icon">PT</div>
+        <div>
+          <h3>Personal Training</h3>
+          <p>One-on-one coaching with goal-based workout plans and progress tracking.</p>
+        </div>
+      </div>
+
+      <div class="card-service">
+        <div class="svc-icon">GX</div>
+        <div>
+          <h3>Group Classes</h3>
+          <p>High-energy sessions: HIIT, Yoga, Strength, and Cardio to keep you motivated.</p>
+        </div>
+      </div>
+
+      <div class="card-service">
+        <div class="svc-icon">NT</div>
+        <div>
+          <h3>Nutrition Plans</h3>
+          <p>Personalised meal plans and diet guidance from certified nutritionists.</p>
+        </div>
+      </div>
+
+      <div class="card-service">
+        <div class="svc-icon">ON</div>
+        <div>
+          <h3>Online Coaching</h3>
+          <p>Train from home with virtual sessions and on-demand workout videos.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CLASSES -->
+  <div class="container classes" id="classes">
+    <div class="section-title">
+      <h2>Popular Classes</h2>
+      <div style="color:var(--muted);font-weight:600">Join a class today</div>
+    </div>
+
+    <div class="grid">
+      <div class="class-card">
+        <div class="body">
+          <h4>HIIT Blast</h4>
+          <p>30–45 min high intensity interval training to burn calories fast.</p>
+        </div>
+      </div>
+
+      <div class="class-card">
+        <div class="body">
+          <h4>Vinyasa Yoga</h4>
+          <p>Flow-focused practice for flexibility, breath, and recovery.</p>
+        </div>
+      </div>
+
+      <div class="class-card">
+        <div class="body">
+          <h4>Strength & Conditioning</h4>
+          <p>Build muscle and functional strength with progressive programming.</p>
+        </div>
+      </div>
+
+      <div class="class-card">
+        <div class="body">
+          <h4>Spin Cycle</h4>
+          <p>Endurance-focused indoor cycling with motivating instructors.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TRAINERS -->
+  <div class="container trainers" id="trainers">
+    <div class="section-title">
+      <h2>Meet Our Trainers</h2>
+      <div style="color:var(--muted);font-weight:600">Certified & friendly</div>
+    </div>
+
+    <div class="grid">
+      <div class="trainer">
+        <img src="https://images.unsplash.com/photo-1607746882042-944635dfe10e?q=80&w=800&auto=format&fit=crop&ixlib=rb-4.0.3&s=abcd" alt="Trainer 1">
+        <strong>Ravi Patel</strong>
+        <div style="color:var(--muted);font-size:13px">Strength Coach</div>
+      </div>
+
+      <div class="trainer">
+        <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=800&auto=format&fit=crop&ixlib=rb-4.0.3&s=efgh" alt="Trainer 2">
+        <strong>Sneha Mehta</strong>
+        <div style="color:var(--muted);font-size:13px">Yoga & Mobility</div>
+      </div>
+
+      <div class="trainer">
+        <img src="https://images.unsplash.com/photo-1547425260-76bcadfb4f2c?q=80&w=800&auto=format&fit=crop&ixlib=rb-4.0.3&s=ijkl" alt="Trainer 3">
+        <strong>Manan Joshi</strong>
+        <div style="color:var(--muted);font-size:13px">Cardio Specialist</div>
+      </div>
+
+      <div class="trainer">
+        <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=800&auto=format&fit=crop&ixlib=rb-4.0.3&s=mnop" alt="Trainer 4">
+        <strong>Priya Shah</strong>
+        <div style="color:var(--muted);font-size:13px">Nutrition Coach</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA / JOIN -->
+  <div class="container" id="join" style="margin-top:22px">
+    <div style="display:flex;gap:18px;align-items:center;justify-content:space-between;background:var(--card);padding:18px;border-radius:12px;box-shadow:0 8px 26px rgba(20,25,30,0.04)">
+      <div>
+        <h3 style="margin:0 0 6px 0">Ready to transform?</h3>
+        <p style="margin:0;color:var(--muted)">Start your free 7-day trial — no commitment. Get a personalised plan and join group classes.</p>
+      </div>
+      <div style="display:flex;gap:12px;align-items:center">
+        <a class="cta" href="#contact">Get Started</a>
+        <a class="btn-outline" href="#contact">Contact Us</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer id="contact">
+    <div class="container">
+      <div class="footer-grid">
+        <div style="max-width:520px">
+          <h3 style="margin:0 0 6px 0">FitZone</h3>
+          <div style="color:var(--muted)">123 Fitness St., YourCity • Mon–Sun: 6am–10pm</div>
+        </div>
+
+        <div style="display:flex;gap:22px;align-items:center;">
+          <div style="text-align:right">
+            <div style="font-weight:700">Email</div>
+            <div style="color:var(--muted)">hello@fitzone.com</div>
+          </div>
+
+          <div style="text-align:right">
+            <div style="font-weight:700">Phone</div>
+            <div style="color:var(--muted)">+91 99999 99999</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top:20px; border-top:1px solid #eee; padding-top:16px; color:var(--muted); font-size:13px">
+        © <span id="year"></span> FitZone. All rights reserved.
+      </div>
+    </div>
+  </footer>
+
+
+</body>
+</html>
