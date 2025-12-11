@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Task</title>
+
+    <!-- Google Font + Icon -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: "Montserrat", sans-serif;
+            background: linear-gradient(135deg, #151e29, #31435b);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .card {
+            width: 420px;
+            padding: 40px 35px;
+            border-radius: 30px;
+            background: linear-gradient(135deg, #1f2b3a, #2e435b);
+            box-shadow: 10px 10px 25px #141c25, -10px -10px 25px #3c536f;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 {
+            color: #fff;
+            text-align: center;
+            margin-bottom: 22px;
+            font-size: 26px;
+            font-weight: 600;
+        }
+
+        .inputBox {
+            margin-bottom: 18px;
+        }
+
+        label {
+            color: #dbe6f5;
+            font-size: 14px;
+            font-weight: 500;
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        .inputField, select {
+            width: 100%;
+            padding: 14px 16px;
+            border-radius: 14px;
+            border: none;
+            outline: none;
+            font-size: 14px;
+            font-weight: 500;
+            background: #223040;
+            color: #dbe6f5;
+            box-shadow: inset 4px 4px 8px #141c25, inset -4px -4px 8px #34475e;
+        }
+
+        .inputField:focus, select:focus {
+            box-shadow: 0 0 8px #00bcd4, inset 4px 4px 8px #141c25, inset -4px -4px 8px #34475e;
+        }
+
+        .inputField[disabled] {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            border-radius: 18px;
+            border: none;
+            background: #00bcd4;
+            color: #fff;
+            font-size: 17px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            cursor: pointer;
+            box-shadow: 0 8px 18px rgba(0, 188, 212, 0.4);
+            transition: 0.3s ease;
+        }
+
+        button:hover {
+            background: #0097a7;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 188, 212, 0.5);
+        }
+
+        .icon-title {
+            font-size: 14px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="card">
+        <h2><i class="fa-solid fa-pen-to-square"></i> Update Task</h2>
+
+        <form action="/updatetask?Taskid=<%=Task.id%>" method="post">
+
+            <div class="inputBox">
+                <label class="icon-title"><i class="fa-solid fa-hashtag"></i> Task ID</label>
+                <input type="text" class="inputField" value="<%=Task.id%>" disabled />
+            </div>
+
+            <div class="inputBox">
+                <label class="icon-title"><i class="fa-solid fa-heading"></i> Task Title</label>
+                <input type="text" class="inputField" name="Title" value="<%=Task.Title%>" required />
+            </div>
+
+            <div class="inputBox">
+                <label class="icon-title"><i class="fa-solid fa-align-left"></i> Description</label>
+                <input type="text" class="inputField" name="Description" value="<%=Task.Description%>" required />
+            </div>
+
+            <div class="inputBox">
+                <label class="icon-title"><i class="fa-solid fa-flag"></i> Priority</label>
+                <select name="Priority">
+                    <option value="High" <%=Task.Priority=="High"?"selected":""%>>High</option>
+                    <option value="Medium" <%=Task.Priority=="Medium"?"selected":""%>>Medium</option>
+                    <option value="Low" <%=Task.Priority=="Low"?"selected":""%>>Low</option>
+                </select>
+            </div>
+
+            <div class="inputBox">
+                <label class="icon-title"><i class="fa-solid fa-calendar-days"></i> Due Date</label>
+                <input type="date" class="inputField" name="DueDate" value="<%=Task.DueDate%>" required />
+            </div>
+
+            <button type="submit"><i class="fa-solid fa-upload"></i> SAVE CHANGES</button>
+        </form>
+    </div>
+
+</body>
+
+</html>

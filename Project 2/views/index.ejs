@@ -1,0 +1,732 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Smart Task Manager — Redesigned</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <style>
+        :root {
+            --bg: #0b1220;
+            --card: #0f1720;
+            --muted: #9aa6b2;
+            --accent1: #00d4ff;
+            --accent2: #6a5cff;
+            --glass: rgba(255, 255, 255, 0.03);
+            --radius: 14px;
+            --glass-2: rgba(255, 255, 255, 0.02);
+            --success: #22c55e;
+            --danger: #ff6b6b;
+            --warning: #ffb86b;
+            font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+        }
+
+        /* Global */
+        * {
+            box-sizing: border-box
+        }
+
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            background: linear-gradient(180deg, var(--bg) 0%, #06111a 100%);
+            color: #e6f0f6
+        }
+
+        a {
+            color: inherit
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 32px auto;
+            padding: 20px
+        }
+
+        /* Header */
+        header.topbar {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            justify-content: space-between;
+            margin-bottom: 18px
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px
+        }
+
+        .logo {
+            width: 56px;
+            height: 56px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--accent2), var(--accent1));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6)
+        }
+
+        .brand h1 {
+            font-size: 18px;
+            margin: 0
+        }
+
+        .brand p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 13px
+        }
+
+        .top-actions {
+            display: flex;
+            gap: 8px;
+            align-items: center
+        }
+
+        .search {
+            background: var(--glass);
+            border-radius: 12px;
+            padding: 8px 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px
+        }
+
+        .search input {
+            background: transparent;
+            border: none;
+            outline: none;
+            color: inherit;
+            width: 220px
+        }
+
+        .add-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 14px;
+            border-radius: 12px;
+            background: linear-gradient(90deg, var(--accent1), var(--accent2));
+            border: none;
+            color: #04202a;
+            font-weight: 700;
+            cursor: pointer
+        }
+
+        /* Layout */
+        .grid {
+            display: grid;
+            grid-template-columns: 360px 1fr;
+            gap: 22px
+        }
+
+        /* Form Card */
+        .card {
+            background: linear-gradient(180deg, var(--card), #0b1218);
+            border-radius: var(--radius);
+            padding: 18px;
+            box-shadow: 0 8px 30px rgba(8, 12, 18, 0.6);
+            border: 1px solid var(--glass-2)
+        }
+
+        .card h2 {
+            margin: 0 0 10px 0
+        }
+
+        label {
+            display: block;
+            font-size: 13px;
+            color: var(--muted);
+            margin-top: 10px
+        }
+
+        input[type=text],
+        input[type=date],
+        select,
+        textarea {
+            width: 100%;
+            padding: 10px 12px;
+            margin-top: 6px;
+            border-radius: 10px;
+            border: none;
+            background: rgba(255, 255, 255, 0.03);
+            color: inherit;
+            font-size: 14px
+        }
+
+        textarea {
+            min-height: 90px;
+            resize: vertical
+        }
+
+        .form-row {
+            display: flex;
+            gap: 10px
+        }
+
+        .form-row>* {
+            flex: 1
+        }
+
+        .row-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 14px
+        }
+
+        .btn {
+            padding: 10px 12px;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            font-weight: 700
+        }
+
+        .btn.primary {
+            background: linear-gradient(90deg, var(--accent1), var(--accent2));
+            color: #02121b
+        }
+
+        .btn.ghost {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            color: var(--muted)
+        }
+
+        /* Stats */
+        .stats {
+            display: flex;
+            gap: 10px;
+            margin: 8px 0 16px
+        }
+
+        .stat {
+            flex: 1;
+            padding: 12px;
+            border-radius: 12px;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.01), transparent);
+            border: 1px solid rgba(255, 255, 255, 0.02);
+            display: flex;
+            flex-direction: column
+        }
+
+        .stat .num {
+            font-size: 18px;
+            font-weight: 800
+        }
+
+        .stat .lbl {
+            font-size: 12px;
+            color: var(--muted);
+            margin-top: 6px
+        }
+
+        /* Table area */
+        .table-wrap {
+            overflow: hidden;
+            border-radius: 12px
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: transparent
+        }
+
+        thead th {
+            font-size: 12px;
+            padding: 12px 14px;
+            text-align: left;
+            color: var(--muted);
+            letter-spacing: 0.6px
+        }
+
+        tbody tr {
+            border-top: 1px solid rgba(255, 255, 255, 0.02)
+        }
+
+        tbody td {
+            padding: 12px 14px;
+            vertical-align: middle
+        }
+
+        .priority {
+            display: inline-block;
+            padding: 6px 10px;
+            border-radius: 999px;
+            font-weight: 700;
+            font-size: 12px
+        }
+
+        .priority.high {
+            background: linear-gradient(90deg, #ff6b6b, #ff4d4d)
+        }
+
+        .priority.medium {
+            background: linear-gradient(90deg, #ffb86b, #ffa500)
+        }
+
+        .priority.low {
+            background: linear-gradient(90deg, #6ee7b7, #22c55e)
+        }
+
+        .actions {
+            display: flex;
+            gap: 6px
+        }
+
+        .icon-btn {
+            background: transparent;
+            border: 1px solid rgba(195, 21, 21, 0.03);
+            padding: 8px;
+            border-radius: 8px;
+            cursor: pointer
+        }
+
+        /* Empty state */
+        .empty {
+            text-align: center;
+            padding: 40px;
+            color: var(--muted)
+        }
+
+        /* Responsive */
+        @media (max-width:920px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .search input {
+                width: 120px
+            }
+        }
+    </style>
+</head>
+
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Smart Task Manager — Redesigned</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <style>
+        :root {
+            --bg: #0b1220;
+            --card: #0f1720;
+            --muted: #9aa6b2;
+            --accent1: #00d4ff;
+            --accent2: #6a5cff;
+            --glass: rgba(255, 255, 255, 0.03);
+            --radius: 14px;
+            --glass-2: rgba(255, 255, 255, 0.02);
+            --success: #22c55e;
+            --danger: #ff6b6b;
+            --warning: #ffb86b;
+            font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            background: linear-gradient(180deg, var(--bg) 0%, #06111a 100%);
+            color: #e6f0f6
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 32px auto;
+            padding: 20px
+        }
+
+        header.topbar {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            justify-content: space-between;
+            margin-bottom: 18px
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px
+        }
+
+        .logo {
+            width: 56px;
+            height: 56px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--accent2), var(--accent1));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6)
+        }
+
+        .top-actions {
+            display: flex;
+            gap: 8px;
+            align-items: center
+        }
+
+        .search {
+            background: var(--glass);
+            border-radius: 12px;
+            padding: 8px 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px
+        }
+
+        .search input {
+            background: transparent;
+            border: none;
+            outline: none;
+            color: inherit;
+            width: 220px
+        }
+
+        .add-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 14px;
+            border-radius: 12px;
+            background: linear-gradient(90deg, var(--accent1), var(--accent2));
+            border: none;
+            color: #04202a;
+            font-weight: 700;
+            cursor: pointer
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 360px 1fr;
+            gap: 22px
+        }
+
+        .card {
+            background: linear-gradient(180deg, var(--card), #0b1218);
+            border-radius: var(--radius);
+            padding: 18px;
+            box-shadow: 0 8px 30px rgba(8, 12, 18, 0.6);
+            border: 1px solid var(--glass-2)
+        }
+
+        /* -------- UPDATED RED EDIT & DELETE BUTTONS -------- */
+        .actions {
+            display: flex;
+            gap: 6px;
+        }
+
+        .icon-btn {
+            background: #ff4d4d;
+            border: none;
+            padding: 8px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .icon-btn:hover {
+            background: #e63939;
+        }
+        /* --------------------------------------------------- */
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead th {
+            font-size: 12px;
+            padding: 12px 14px;
+            color: var(--muted);
+        }
+
+        tbody td {
+            padding: 12px 14px;
+        }
+
+        .priority {
+            display: inline-block;
+            padding: 6px 10px;
+            border-radius: 999px;
+            font-weight: 700;
+            font-size: 12px
+        }
+
+        .priority.high {
+            background: linear-gradient(90deg, #ff6b6b, #ff4d4d)
+        }
+
+        .priority.medium {
+            background: linear-gradient(90deg, #ffb86b, #ffa500)
+        }
+
+        .priority.low {
+            background: linear-gradient(90deg, #6ee7b7, #22c55e)
+        }
+    </style>
+</head>
+
+<body>
+    <!-- (Rest of your HTML + JS is unchanged — only button colors are modified) -->
+     <body>
+    <div class="container">
+        <header class="topbar">
+            <div class="brand">
+                <div class="logo">ST</div>
+                <div>
+                    <h1>Smart Task Manager</h1>
+                    <p>Clean UI • Local demo • Editable tasks</p>
+                </div>
+            </div>
+
+            <div class="top-actions">
+                <div class="search" role="search">
+                    <i class="fa-solid fa-magnifying-glass" style="opacity:.7"></i>
+                    <input id="search" placeholder="Search tasks, titles or dates" aria-label="Search tasks">
+                </div>
+                <button id="newTaskBtn" class="add-btn"><i class="fa-solid fa-plus"></i> New Task</button>
+            </div>
+        </header>
+
+        <main class="grid">
+
+            <!-- Left: Form + Stats -->
+            <section class="card" aria-labelledby="formTitle">
+                <h2 id="formTitle">Add / Edit Task</h2>
+
+                <div class="stats" aria-hidden="true">
+                    <div class="stat">
+                        <div class="num" id="totalCount">0</div>
+                        <div class="lbl">Total tasks</div>
+                    </div>
+                    <div class="stat">
+                        <div class="num" id="dueToday">0</div>
+                        <div class="lbl">Due today</div>
+                    </div>
+                    <div class="stat">
+                        <div class="num" id="overdue">0</div>
+                        <div class="lbl">Overdue</div>
+                    </div>
+                </div>
+
+                <form id="taskForm" onsubmit="return false">
+                    <input type="hidden" id="taskId">
+
+                    <label for="title">Title</label>
+                    <input id="title" type="text" placeholder="eg. Design landing page" required>
+
+                    <label for="desc">Description</label>
+                    <textarea id="desc" placeholder="Short description (optional)"></textarea>
+
+                    <div class="form-row">
+                        <div>
+                            <label for="priority">Priority</label>
+                            <select id="priority">
+                                <option value="High">High</option>
+                                <option value="Medium">Medium</option>
+                                <option value="Low">Low</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label for="due">Due Date</label>
+                            <input id="due" type="date">
+                        </div>
+                    </div>
+
+                    <div class="row-actions">
+                        <button class="btn primary" id="saveBtn"><i class="fa-solid fa-floppy-disk"></i> Save
+                            Task</button>
+                        <button class="btn ghost" id="clearBtn" type="button">Clear</button>
+                    </div>
+
+                    <p style="margin-top:10px;color:var(--muted);font-size:13px">This demo stores tasks in your browser
+                        (localStorage). Remove the storage calls if you plan to connect to a server endpoint.</p>
+                </form>
+            </section>
+
+            <!-- Right: Table -->
+            <section>
+                <div class="card table-wrap">
+                    <div
+                        style="display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border-bottom:1px solid rgba(255,255,255,0.02)">
+                        <strong>Tasks</strong>
+                        <div style="display:flex;gap:8px;align-items:center">
+                            <select id="filterPriority" aria-label="Filter by priority">
+                                <option value="All">All priorities</option>
+                                <option value="High">High</option>
+                                <option value="Medium">Medium</option>
+                                <option value="Low">Low</option>
+                            </select>
+                            <button class="btn ghost" id="refreshBtn">Refresh</button>
+                        </div>
+                    </div>
+
+                    <table id="taskTable" aria-describedby="tableDesc">
+                        <thead>
+                            <tr>
+                                <th style="width:28%">Title</th>
+                                <th style="width:34%">Description</th>
+                                <th style="width:12%">Priority</th>
+                                <th style="width:12%">Due</th>
+                                <th style="width:14%">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody">
+                            <!-- rows generated by JS -->
+                        </tbody>
+                    </table>
+
+                    <div id="emptyState" class="empty" hidden>
+                        <div style="font-size:18px;margin-bottom:8px">No tasks yet</div>
+                        <div style="color:var(--muted)">Create your first task using the form on the left.</div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <script>
+        // SIMPLE localStorage-backed UI demo
+        const $ = id => document.getElementById(id);
+        const tbody = $('tbody');
+        const emptyState = $('emptyState');
+        const totalCount = $('totalCount');
+        const dueToday = $('dueToday');
+        const overdue = $('overdue');
+
+        function uid() { return 't_' + Math.random().toString(36).slice(2, 9) }
+
+        function loadTasks() {
+            try { return JSON.parse(localStorage.getItem('smart_tasks') || '[]') } catch (e) { return [] }
+        }
+        function saveTasks(tasks) { localStorage.setItem('smart_tasks', JSON.stringify(tasks)); }
+
+        function formatDate(d) { if (!d) return '-'; const dt = new Date(d); if (isNaN(dt)) return '-'; return dt.toLocaleDateString(); }
+
+        function render() {
+            const tasks = loadTasks();
+            const q = $('search').value.trim().toLowerCase();
+            const filter = $('filterPriority').value;
+            let list = tasks.slice().sort((a, b) => (a.due || '') - (b.due || ''));
+
+            if (filter !== 'All') list = list.filter(t => t.priority === filter);
+            if (q) list = list.filter(t => (t.title || '').toLowerCase().includes(q) || (t.desc || '').toLowerCase().includes(q) || (t.due || '').includes(q));
+
+            tbody.innerHTML = '';
+            if (list.length === 0) { emptyState.hidden = false; $('taskTable').hidden = true; } else { emptyState.hidden = true; $('taskTable').hidden = false }
+
+            const today = new Date(); today.setHours(0, 0, 0, 0);
+            let dueTodayCount = 0, overdueCount = 0;
+
+            list.forEach(task => {
+                const tr = document.createElement('tr');
+                const tdTitle = document.createElement('td'); tdTitle.innerHTML = `<strong>${escapeHtml(task.title)}</strong>`;
+                const tdDesc = document.createElement('td'); tdDesc.textContent = task.desc || '-';
+                const tdPri = document.createElement('td');
+                const priSpan = document.createElement('span'); priSpan.className = 'priority ' + (task.priority || 'low').toLowerCase(); priSpan.textContent = task.priority || 'Low'; tdPri.appendChild(priSpan);
+                const tdDue = document.createElement('td'); tdDue.textContent = task.due ? formatDate(task.due) : '-';
+
+                const tdAct = document.createElement('td'); tdAct.className = 'actions';
+                const editBtn = document.createElement('button'); editBtn.className = 'icon-btn'; editBtn.innerHTML = '<i class="fa-solid fa-pen" title="Edit"></i>';
+                editBtn.onclick = () => populateForm(task.id);
+                const delBtn = document.createElement('button'); delBtn.className = 'icon-btn'; delBtn.innerHTML = '<i class="fa-solid fa-trash" title="Delete"></i>';
+                delBtn.onclick = () => removeTask(task.id);
+
+                tdAct.appendChild(editBtn); tdAct.appendChild(delBtn);
+
+                tr.appendChild(tdTitle); tr.appendChild(tdDesc); tr.appendChild(tdPri); tr.appendChild(tdDue); tr.appendChild(tdAct);
+                tbody.appendChild(tr);
+
+                if (task.due) { const dueDate = new Date(task.due); dueDate.setHours(0, 0, 0, 0); if (+dueDate === +today) dueTodayCount++; if (+dueDate < +today) overdueCount++; }
+            });
+
+            totalCount.textContent = loadTasks().length;
+            dueToday.textContent = dueTodayCount;
+            overdue.textContent = overdueCount;
+        }
+
+        function escapeHtml(s) { return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+
+        function populateForm(id) {
+            const tasks = loadTasks();
+            const t = tasks.find(x => x.id === id);
+            if (!t) return;
+            $('taskId').value = t.id;
+            $('title').value = t.title;
+            $('desc').value = t.desc;
+            $('priority').value = t.priority;
+            $('due').value = t.due || '';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function removeTask(id) {
+            if (!confirm('Delete this task?')) return;
+            const tasks = loadTasks().filter(t => t.id !== id);
+            saveTasks(tasks); render();
+        }
+
+        function clearForm() {
+            $('taskId').value = ''; $('title').value = ''; $('desc').value = ''; $('priority').value = 'Medium'; $('due').value = '';
+        }
+
+        // Save or update
+        $('saveBtn').addEventListener('click', () => {
+            const id = $('taskId').value || uid();
+            const title = $('title').value.trim();
+            if (!title) { alert('Please add a title'); return }
+            const desc = $('desc').value.trim();
+            const priority = $('priority').value;
+            const due = $('due').value || null;
+
+            const tasks = loadTasks();
+            const exists = tasks.find(t => t.id === id);
+            if (exists) { exists.title = title; exists.desc = desc; exists.priority = priority; exists.due = due; }
+            else { tasks.push({ id, title, desc, priority, due }); }
+            saveTasks(tasks); clearForm(); render();
+        });
+
+        $('clearBtn').addEventListener('click', () => { clearForm(); });
+        $('newTaskBtn').addEventListener('click', () => { clearForm(); window.scrollTo({ top: 0, behavior: 'smooth' }); $('title').focus(); });
+
+        $('search').addEventListener('input', () => { render(); });
+        $('filterPriority').addEventListener('change', () => render());
+        $('refreshBtn').addEventListener('click', () => render());
+
+        // initialize sample data if none
+        if (loadTasks().length === 0) {
+            const sample = [
+                { id: uid(), title: 'Design hero section', desc: 'Create responsive hero and CTA', priority: 'High', due: new Date().toISOString().slice(0, 10) },
+                { id: uid(), title: 'Fix login bug', desc: 'Session expires unexpectedly', priority: 'Medium', due: null },
+                { id: uid(), title: 'Write README', desc: 'Document setup & scripts', priority: 'Low', due: null }
+            ]; saveTasks(sample);
+        }
+
+        render();
+    </script>
+
+</body>
+
+</html>
+</body>
+
+</html>
