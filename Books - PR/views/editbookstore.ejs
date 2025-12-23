@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Book</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: "Segoe UI", sans-serif;
+            background: linear-gradient(120deg, #0f172a, #1e293b);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+        }
+
+        .wrapper {
+            width: 100%;
+            max-width: 1000px;
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(18px);
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.35);
+        }
+
+        /* LEFT SIDE */
+        .left {
+            padding: 50px 40px;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background: linear-gradient(160deg, #6366f1, #4338ca);
+        }
+
+        .left h1 {
+            font-size: 32px;
+            margin-bottom: 15px;
+        }
+
+        .left p {
+            font-size: 15px;
+            line-height: 1.6;
+            opacity: 0.9;
+        }
+
+        /* RIGHT SIDE */
+        .right {
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.95);
+        }
+
+        form {
+            width: 100%;
+        }
+
+        .field {
+            position: relative;
+            margin-bottom: 22px;
+        }
+
+        .field input,
+        .field select {
+            width: 100%;
+            padding: 14px 12px;
+            border: 1px solid #cbd5f5;
+            border-radius: 10px;
+            font-size: 14px;
+            outline: none;
+            background: transparent;
+        }
+
+        .field label {
+            position: absolute;
+            top: 50%;
+            left: 12px;
+            transform: translateY(-50%);
+            background: #fff;
+            padding: 0 6px;
+            font-size: 13px;
+            color: #6b7280;
+            pointer-events: none;
+            transition: 0.25s ease;
+        }
+
+        .field input:focus + label,
+        .field input:not(:placeholder-shown) + label,
+        .field select:focus + label {
+            top: -8px;
+            font-size: 12px;
+            color: #4338ca;
+        }
+
+        .row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .submit-btn {
+            margin-top: 25px;
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #4f46e5, #6366f1);
+            color: #fff;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 30px rgba(79,70,229,0.45);
+        }
+
+        @media (max-width: 850px) {
+            .wrapper {
+                grid-template-columns: 1fr;
+            }
+
+            .left {
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="wrapper">
+
+        <!-- LEFT INFO PANEL -->
+        <div class="left">
+            <h1>Edit Book</h1>
+            <p>
+                Update book information easily with a clean, modern interface.
+                Keep your store data accurate and well-organized.
+            </p>
+        </div>
+
+        <!-- RIGHT FORM -->
+        <div class="right">
+            <form action="/update-book/<%=book.id%>" method="post">
+
+                <div class="field">
+                    <input type="text" name="Booktitle" value="<%=book.Booktitle%>" placeholder=" " required>
+                    <label>Book Title</label>
+                </div>
+
+                <div class="field">
+                    <input type="text" name="Authorname" value="<%=book.Authorname%>" placeholder=" " required>
+                    <label>Author Name</label>
+                </div>
+
+                <div class="field">
+                    <input type="text" name="Desc" value="<%=book.Desc%>" placeholder=" ">
+                    <label>Description</label>
+                </div>
+
+                <div class="field">
+                    <input type="url" name="Image" value="<%=book.Image%>" placeholder=" ">
+                    <label>Image URL</label>
+                </div>
+
+                <div class="row">
+                    <div class="field">
+                        <select name="Language" required>
+                            <option value=""></option>
+                            <option value="English" <%= book.Language==="English"?"selected":"" %>>English</option>
+                            <option value="Gujarati" <%= book.Language==="Gujarati"?"selected":"" %>>Gujarati</option>
+                            <option value="Hindi" <%= book.Language==="Hindi"?"selected":"" %>>Hindi</option>
+                        </select>
+                        <label>Language</label>
+                    </div>
+
+                    <div class="field">
+                        <input type="number" name="Price" value="<%=book.Price%>" placeholder=" ">
+                        <label>Price (₹)</label>
+                    </div>
+                </div>
+
+                <button class="submit-btn">Update Book</button>
+
+            </form>
+        </div>
+
+    </div>
+
+</body>
+</html>

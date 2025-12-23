@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Book Wall</title>
+
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: "Poppins", sans-serif;
+        background: #fdf4ff;
+        color: #1f2937;
+      }
+
+      /* ===== TOP BAR ===== */
+      .top-bar {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        background: #ffffff;
+        padding: 18px 30px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+      }
+
+      .top-bar h1 {
+        margin: 0;
+        font-size: 26px;
+      }
+
+      .top-bar span {
+        color: #9333ea;
+      }
+
+      /* ADD BUTTON */
+      .open-form {
+        background: #9333ea;
+        color: #fff;
+        border: none;
+        padding: 10px 18px;
+        border-radius: 30px;
+        font-weight: 600;
+        cursor: pointer;
+      }
+
+      /* ===== ADD FORM SLIDE ===== */
+      .add-form {
+        max-width: 1100px;
+        margin: 30px auto;
+        background: linear-gradient(135deg, #fdf4ff, #faf5ff);
+        border-radius: 24px;
+        padding: 25px;
+        box-shadow: 0 20px 40px rgba(147, 51, 234, 0.2);
+      }
+
+      .add-form h2 {
+        margin-bottom: 15px;
+      }
+
+      .form-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 14px;
+      }
+
+      .form-grid input,
+      .form-grid select {
+        padding: 12px;
+        border-radius: 14px;
+        border: 1px solid #ddd6fe;
+        outline: none;
+        font-size: 14px;
+      }
+
+      .form-grid input:focus,
+      .form-grid select:focus {
+        border-color: #9333ea;
+      }
+
+      /* SPANS */
+      .col-2 {
+        grid-column: span 2;
+      }
+      .col-4 {
+        grid-column: span 4;
+      }
+
+      /* SUBMIT */
+      .submit-btn {
+        margin-top: 18px;
+        background: #9333ea;
+        color: #fff;
+        border: none;
+        padding: 12px 26px;
+        border-radius: 30px;
+        font-weight: 700;
+        cursor: pointer;
+      }
+
+      /* ===== BOOK WALL ===== */
+      .wall {
+        max-width: 1300px;
+        margin: 40px auto;
+        column-count: 4;
+        column-gap: 25px;
+        padding: 0 20px;
+      }
+
+      .book-tile {
+        background: #ffffff;
+        border-radius: 22px;
+        margin-bottom: 25px;
+        break-inside: avoid;
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.08);
+        overflow: hidden;
+        transition: 0.3s;
+      }
+
+      .book-tile:hover {
+        transform: translateY(-6px);
+      }
+
+      .book-tile img {
+        width: 100%;
+        display: block;
+      }
+
+      /* BOOK CONTENT */
+      .tile-content {
+        padding: 16px;
+      }
+
+      .tile-content h3 {
+        margin: 0;
+        font-size: 17px;
+      }
+
+      .tile-content p {
+        font-size: 13px;
+        color: #6b7280;
+        margin: 6px 0;
+      }
+
+      /* TAGS */
+      .tag {
+        display: inline-block;
+        font-size: 11px;
+        padding: 4px 10px;
+        border-radius: 20px;
+        background: #ede9fe;
+        color: #6d28d9;
+        font-weight: 600;
+        margin-right: 6px;
+      }
+
+      .price {
+        margin-top: 8px;
+        font-weight: 700;
+        color: #16a34a;
+      }
+
+      /* ACTIONS */
+      .actions {
+        display: flex;
+        gap: 10px;
+        margin-top: 10px;
+      }
+
+      .actions button {
+        flex: 1;
+        border: none;
+        padding: 7px;
+        border-radius: 10px;
+        font-size: 12px;
+        font-weight: 600;
+        cursor: pointer;
+      }
+
+      .edit {
+        background: #c7d2fe;
+        color: #3730a3;
+      }
+      .delete {
+        background: #fecaca;
+        color: #7f1d1d;
+      }
+
+      /* EMPTY */
+      .empty {
+        text-align: center;
+        font-weight: 600;
+        color: #9ca3af;
+        margin-top: 40px;
+      }
+
+      /* RESPONSIVE */
+      @media (max-width: 1100px) {
+        .wall {
+          column-count: 3;
+        }
+      }
+      @media (max-width: 800px) {
+        .wall {
+          column-count: 2;
+        }
+        .form-grid {
+          grid-template-columns: 1fr;
+        }
+        .col-2,
+        .col-4 {
+          grid-column: span 1;
+        }
+      }
+      @media (max-width: 500px) {
+        .wall {
+          column-count: 1;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- TOP BAR -->
+    <div class="top-bar">
+      <h1>📖 Book <span>Wall</span></h1>
+      <!-- <button class="open-form">+ Add Book</button> -->
+    </div>
+
+    <!-- ADD BOOK -->
+    <div class="add-form">
+      <h2>Create a New Entry</h2>
+
+      <form action="/add-book" method="post">
+        <div class="form-grid">
+          <input
+            class="col-2"
+            type="text"
+            name="Booktitle"
+            placeholder="Book title"
+            required
+          />
+          <input
+            class="col-2"
+            type="text"
+            name="Authorname"
+            placeholder="Author name"
+            required
+          />
+          <input
+            class="col-2"
+            type="url"
+            name="Image"
+            placeholder="Cover image URL"
+            required
+          />
+          <select class="col-2" name="Language" required>
+            <option value="">Language</option>
+            <option>English</option>
+            <option>Gujarati</option>
+            <option>Hindi</option>
+          </select>
+          <input type="number" name="Price" placeholder="₹ Price" required />
+          <input
+            class="col-4"
+            type="text"
+            name="Desc"
+            placeholder="Short description"
+            required
+          />
+        </div>
+
+        <button class="submit-btn">Add to Wall</button>
+      </form>
+    </div>
+
+    <!-- BOOK WALL -->
+    <% if(books.length===0){ %>
+    <div class="empty">No books yet. Start adding ✨</div>
+    <% } else { %>
+
+    <div class="wall">
+      <% books.forEach((book)=>{ %>
+      <div class="book-tile">
+        <img src="<%= book.Image %>" />
+
+        <div class="tile-content">
+          <h3><%= book.Booktitle %></h3>
+          <p><%= book.Authorname %></p>
+
+          <span class="tag"><%= book.Language %></span>
+
+          <div class="price">₹ <%= book.Price %></div>
+
+          <div class="actions">
+            <a href="/Editbook/<%=book.id%>"
+              ><button class="edit">Edit</button></a
+            >
+            <a href="/Deletebook/<%=book.id%>"
+              ><button class="delete">Delete</button></a
+            >
+          </div>
+        </div>
+      </div>
+      <% }) %>
+    </div>
+
+    <% } %>
+  </body>
+</html>
