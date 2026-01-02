@@ -1,0 +1,145 @@
+/* ================= GLOBAL THEME ================= */
+:root {
+    --primary: #6366f1;
+    --secondary: #8b5cf6;
+    --bg: #f9fafb;
+    --glass: rgba(255, 255, 255, 0.75);
+    --border: rgba(0, 0, 0, 0.06);
+    --text: #0f172a;
+    --muted: #64748b;
+}
+
+/* RESET */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", "Segoe UI", sans-serif;
+}
+
+body {
+    background:
+        radial-gradient(circle at top, #eef2ff, #f9fafb);
+    color: var(--text);
+    min-height: 100vh;
+}
+
+/* ================= NAVBAR ================= */
+.navbar {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    padding: 18px 8%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    background: var(--glass);
+    backdrop-filter: blur(18px);
+    border-bottom: 1px solid var(--border);
+    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.08);
+}
+
+/* LOGO */
+.logo a {
+    font-size: 24px;
+    font-weight: 800;
+    text-decoration: none;
+    color: var(--text);
+    letter-spacing: 0.6px;
+}
+
+.logo a span {
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* BUTTON WRAPPER */
+.nav-btn {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* ADD MOVIE BUTTON */
+.add-movie-btn {
+    position: relative;
+    padding: 11px 26px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 999px;
+
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    box-shadow: 0 14px 35px rgba(99, 102, 241, 0.4);
+    transition: all 0.35s ease;
+}
+
+/* Glow Effect */
+.add-movie-btn::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: inherit;
+    filter: blur(18px);
+    opacity: 0;
+    z-index: -1;
+    transition: 0.35s;
+}
+
+.add-movie-btn:hover::after {
+    opacity: 1;
+}
+
+.add-movie-btn:hover {
+    transform: translateY(-3px) scale(1.03);
+}
+
+/* ================= FOOTER ================= */
+.site-footer {
+    margin-top: 80px;
+    padding: 22px 8%;
+    text-align: center;
+
+    background: var(--glass);
+    backdrop-filter: blur(18px);
+    border-top: 1px solid var(--border);
+    box-shadow: 0 -12px 30px rgba(0, 0, 0, 0.05);
+}
+
+.site-footer p {
+    font-size: 14px;
+    color: var(--muted);
+    letter-spacing: 0.4px;
+}
+
+/* BRAND */
+.site-footer span {
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 768px) {
+    .navbar {
+        padding: 14px 6%;
+    }
+
+    .logo a {
+        font-size: 21px;
+    }
+
+    .add-movie-btn {
+        padding: 9px 20px;
+        font-size: 13px;
+    }
+
+    .site-footer {
+        padding: 18px 6%;
+    }
+}

@@ -1,0 +1,126 @@
+/* ===== PAGE BACKGROUND ===== */
+body {
+    /* background: linear-gradient(180deg, #eef2f7, #f8fafc); */
+    background: #f6f8fb;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    color: #1f2937;
+}
+
+/* ===== CENTER FORM ===== */
+.form-wrapper {
+    min-height: calc(100vh - 140px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 0;
+}
+
+/* ===== FORM CARD ===== */
+.form-container {
+    background: #ffffff;
+    width: 420px;
+    padding: 32px 28px;
+    border-radius: 16px;
+    border: 1px solid #e5e7eb;
+    box-shadow:
+        0 20px 40px rgba(0, 0, 0, 0.08),
+        0 8px 16px rgba(0, 0, 0, 0.04);
+    position: relative;
+}
+
+/* TOP ACCENT LINE */
+.form-container::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 5px;
+    width: 100%;
+    background: linear-gradient(90deg, #6c63ff, #38bdf8);
+    border-radius: 16px 16px 0 0;
+}
+
+/* ===== TITLE ===== */
+.form-container h2 {
+    text-align: center;
+    margin-bottom: 22px;
+    font-size: 22px;
+    font-weight: 600;
+    color: #0f172a;
+}
+
+/* ===== LABELS ===== */
+.form-container label {
+    display: block;
+    margin: 14px 0 6px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #374151;
+}
+
+/* ===== INPUTS ===== */
+.form-container input[type="text"],
+.form-container select,
+.form-container textarea,
+.form-container input[type="file"] {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1px solid #d1d5db;
+    background: #f9fafb;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+/* PLACEHOLDER */
+.form-container input::placeholder,
+.form-container textarea::placeholder {
+    color: #9ca3af;
+}
+
+/* FOCUS EFFECT */
+.form-container input:focus,
+.form-container select:focus,
+.form-container textarea:focus {
+    border-color: #6c63ff;
+    background: #ffffff;
+    box-shadow: 0 0 0 3px rgba(108, 99, 255, 0.15);
+    outline: none;
+}
+
+/* TEXTAREA */
+.form-container textarea {
+    resize: none;
+}
+
+/* ===== BUTTON GROUP ===== */
+.btn-group {
+    margin-top: 26px;
+    text-align: center;
+}
+
+/* ===== SUBMIT BUTTON ===== */
+.submit-btn {
+    background: linear-gradient(135deg, #6c63ff, #4e54c8);
+    color: #ffffff;
+    border: none;
+    padding: 12px 34px;
+    border-radius: 30px;
+    font-size: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+/* BUTTON HOVER */
+.submit-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(108, 99, 255, 0.35);
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 480px) {
+    .form-container {
+        width: 90%;
+        padding: 26px 22px;
+    }
+}
