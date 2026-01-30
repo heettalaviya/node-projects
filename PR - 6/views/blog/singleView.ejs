@@ -1,0 +1,209 @@
+<%- include('../header') %>
+
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+
+<style>
+    :root {
+        --accent-color: #6366f1;
+        --text-dark: #0f172a;
+        --text-light: #64748b;
+        --glass: rgba(255, 255, 255, 0.8);
+    }
+
+    body {
+        background-color: #f1f5f9;
+        font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    /* Immersive Hero Section */
+    .blog-hero {
+        position: relative;
+        height: 60vh;
+        min-height: 400px;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        background: #000;
+    }
+
+    .hero-bg-blur {
+        position: absolute;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: url("<%= blog.blogimage %>") center/cover no-repeat;
+        filter: blur(20px) brightness(0.6);
+        transform: scale(1.1);
+        z-index: 1;
+    }
+
+    .hero-content {
+        position: relative;
+        z-index: 2;
+        text-align: center;
+        color: white;
+        padding: 0 20px;
+        max-width: 900px;
+    }
+
+    .hero-category {
+        background: var(--accent-color);
+        padding: 6px 16px;
+        border-radius: 100px;
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        margin-bottom: 20px;
+        display: inline-block;
+    }
+
+    .hero-title {
+        font-size: clamp(2rem, 5vw, 3.5rem);
+        font-weight: 800;
+        line-height: 1.1;
+        margin-bottom: 25px;
+        text-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }
+
+    /* Floating Article Card */
+    .article-wrap {
+        margin-top: -120px;
+        position: relative;
+        z-index: 10;
+        padding-bottom: 80px;
+    }
+
+    .main-card {
+        background: white;
+        border-radius: 24px;
+        box-shadow: 0 20px 50px rgba(0,0,0,0.05);
+        padding: 60px;
+        border: 1px solid rgba(255,255,255,0.8);
+    }
+
+    @media (max-width: 768px) {
+        .main-card { padding: 30px 20px; border-radius: 0; margin-top: -50px; }
+    }
+
+    .featured-img-frame {
+        width: 100%;
+        border-radius: 16px;
+        margin-bottom: 40px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+
+    /* Content Typography */
+    .blog-body {
+        font-family: 'Lora', serif;
+        font-size: 1.25rem;
+        line-height: 1.9;
+        color: #334155;
+    }
+
+    .blog-body p { margin-bottom: 25px; }
+
+    /* Author Profile Component */
+    .author-card {
+        display: flex;
+        align-items: center;
+        background: #f8fafc;
+        padding: 25px;
+        border-radius: 20px;
+        margin-top: 60px;
+        border: 1px solid #e2e8f0;
+    }
+
+    .author-img {
+        width: 70px;
+        height: 70px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 4px solid white;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    }
+
+    /* Dynamic Back Button */
+    .fab-back {
+        position: fixed;
+        left: 40px;
+        top: 100px;
+        background: white;
+        color: var(--text-dark);
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        transition: 0.3s;
+        z-index: 100;
+    }
+
+    .fab-back:hover {
+        background: var(--accent-color);
+        color: white;
+        transform: translateX(-5px);
+    }
+
+    @media (max-width: 1200px) {
+        .fab-back { top: auto; bottom: 30px; left: 30px; }
+    }
+</style>
+
+<div class="page-wrapper">
+    
+    <header class="blog-hero">
+        <div class="hero-bg-blur"></div>
+        <div class="hero-content">
+            <span class="hero-category"><%= blog.category %></span>
+            <h1 class="hero-title"><%= blog.title %></h1>
+            
+            <div class="d-flex align-items-center justify-content-center gap-3" style="opacity: 0.9; font-weight: 500;">
+                <img src="<%= blog.authorImage %>" style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover;">
+                <span><%= blog.authorname %></span>
+                <span class="mx-2">&bull;</span>
+                <span><%= blog.publishDate ? blog.publishDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) : 'Recent Post' %></span>
+            </div>
+        </div>
+    </header>
+
+    <div class="container article-wrap">
+        <div class="row justify-content-center">
+            <div class="col-lg-9">
+                
+                <article class="main-card">
+                    <img src="<%= blog.blogimage %>" class="featured-img-frame" alt="Featured Image">
+                    
+                    <div class="blog-body">
+                        <%= blog.description %>
+                    </div>
+
+                    <div class="author-card">
+                        <img src="<%= blog.authorImage %>" class="author-img mr-4" alt="Author">
+                        <div>
+                            <span class="text-uppercase font-weight-bold" style="font-size: 0.7rem; color: var(--accent-color); letter-spacing: 1px;">Published By</span>
+                            <h4 class="mb-1" style="font-weight: 800; color: var(--text-dark);"><%= blog.authorname %></h4>
+                            <p class="mb-0 text-muted" style="font-size: 0.9rem;">Passionate about sharing insights on <%= blog.category %> and digital trends.</p>
+                        </div>
+                    </div>
+                </article>
+
+                <div class="text-center mt-5">
+                    <a href="/blog/view-blog" class="btn btn-link text-muted" style="text-decoration: none;">
+                        <i class="mdi mdi-grid mr-2"></i> Browse more stories
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <a href="/blog/view-blog" class="fab-back" title="Go Back">
+        <i class="mdi mdi-chevron-left" style="font-size: 28px;"></i>
+    </a>
+
+</div>
+
+<%- include('../footer') %>

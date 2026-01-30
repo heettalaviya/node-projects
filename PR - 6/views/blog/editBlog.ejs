@@ -1,0 +1,274 @@
+<%- include('../header') %>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+    :root {
+        --primary: #6366f1;
+        --primary-hover: #4f46e5;
+        --bg-body: #f8fafc;
+        --card-bg: #ffffff;
+        --text-main: #1e293b;
+        --text-muted: #64748b;
+        --border-color: #e2e8f0;
+    }
+
+    body {
+        font-family: 'Inter', sans-serif;
+        background-color: var(--bg-body);
+    }
+
+    .page-wrapper {
+        padding: 40px 0;
+    }
+
+    .glass-card {
+        background: var(--card-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 20px;
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.04), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
+        overflow: hidden;
+        transition: transform 0.3s ease;
+    }
+
+    .edit-header {
+        background: #1e293b;
+        padding: 30px;
+        color: white;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .edit-header h4 {
+        margin: 0;
+        font-weight: 700;
+        letter-spacing: -0.5px;
+    }
+
+    .section-title {
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 1.2px;
+        color: var(--primary);
+        font-weight: 700;
+        margin-bottom: 20px;
+        display: block;
+    }
+
+    .form-section { padding: 40px; }
+
+    /* Modern Floating Input Style */
+    .form-label {
+        font-weight: 500;
+        color: var(--text-main);
+        margin-bottom: 8px;
+        font-size: 0.9rem;
+    }
+
+    .form-control {
+        border-radius: 10px;
+        border: 1px solid var(--border-color);
+        padding: 12px 16px;
+        transition: all 0.2s ease;
+        background-color: #f8fafc;
+    }
+
+    .form-control:focus {
+        border-color: var(--primary);
+        background-color: #fff;
+        box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+        outline: none;
+    }
+
+    /* Category Pill Styling */
+    .category-selector {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+    }
+
+    .category-item input { display: none; }
+
+    .category-item label {
+        padding: 10px 22px;
+        border-radius: 12px;
+        background: #fff;
+        border: 1px solid var(--border-color);
+        cursor: pointer;
+        transition: 0.3s;
+        font-size: 0.85rem;
+        font-weight: 500;
+        color: var(--text-muted);
+    }
+
+    .category-item input:checked + label {
+        background: var(--primary);
+        color: #fff;
+        border-color: var(--primary);
+        box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
+    }
+
+    /* Image Preview Styling */
+    .img-preview-container {
+        position: relative;
+        border-radius: 15px;
+        overflow: hidden;
+        border: 1px solid var(--border-color);
+        background: #f1f5f9;
+        margin-bottom: 15px;
+        max-width: 100%;
+        height: 200px;
+    }
+
+    .img-preview-container img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .author-preview-container {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        border: 3px solid #fff;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        overflow: hidden;
+    }
+
+    /* Action Buttons */
+    .btn-main {
+        background: var(--primary);
+        color: white;
+        border: none;
+        padding: 14px 40px;
+        border-radius: 12px;
+        font-weight: 600;
+        transition: all 0.3s;
+    }
+
+    .btn-main:hover {
+        background: var(--primary-hover);
+        transform: translateY(-2px);
+        box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.3);
+        color: white;
+    }
+
+    .btn-cancel {
+        background: transparent;
+        color: var(--text-muted);
+        border: 1px solid var(--border-color);
+        padding: 14px 30px;
+        border-radius: 12px;
+        font-weight: 600;
+    }
+
+    .btn-cancel:hover { background: #f1f5f9; color: var(--text-main); }
+
+</style>
+
+<div class="page-wrapper">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-xl-10">
+
+                <form action="/blog/update-blog/<%= blog._id %>" method="post" enctype="multipart/form-data">
+                    <div class="glass-card">
+                        
+                        <div class="edit-header d-flex justify-content-between align-items-center">
+                            <div>
+                                <h4 class="mb-1">Edit Post</h4>
+                                <small style="opacity: 0.7;">Make changes to your story and keep it fresh.</small>
+                            </div>
+                            <span class="badge" style="background: rgba(255,255,255,0.1); padding: 8px 15px;">
+                                <i class="mdi mdi-link-variant"></i> <%= blog._id %>
+                            </span>
+                        </div>
+
+                        <div class="form-section">
+                            <div class="row">
+                                <div class="col-lg-7 pr-lg-5">
+                                    <span class="section-title">Post Content</span>
+                                    
+                                    <div class="form-group mb-4">
+                                        <label class="form-label">Headline</label>
+                                        <input type="text" name="title" class="form-control" 
+                                               placeholder="Enter a catchy title..." value="<%= blog.title %>" required>
+                                    </div>
+
+                                    <div class="form-group mb-4">
+                                        <label class="form-label">Short Summary</label>
+                                        <textarea name="description" class="form-control" rows="5" 
+                                                  placeholder="What is this blog about?"><%= blog.description %></textarea>
+                                    </div>
+
+                                    <div class="form-group mb-4">
+                                        <label class="form-label">Topic Category</label>
+                                        <div class="category-selector">
+                                            <div class="category-item">
+                                                <input type="radio" id="tech" name="category" value="Technology" <%= blog.category === 'Technology' ? 'checked' : '' %>>
+                                                <label for="tech">Technology</label>
+                                            </div>
+                                            <div class="category-item">
+                                                <input type="radio" id="edu" name="category" value="education" <%= blog.category === 'education' ? 'checked' : '' %>>
+                                                <label for="edu">Education</label>
+                                            </div>
+                                            <div class="category-item">
+                                                <input type="radio" id="career" name="category" value="CareerGuidance" <%= blog.category === 'CareerGuidance' ? 'checked' : '' %>>
+                                                <label for="career">Career</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-5 mt-4 mt-lg-0">
+                                    <span class="section-title">Media & Publishing</span>
+
+                                    <div class="form-group mb-4">
+                                        <label class="form-label">Cover Image</label>
+                                        <div class="img-preview-container">
+                                            <img src="<%= blog.blogimage %>" id="coverPreview" alt="Cover">
+                                        </div>
+                                        <input type="file" name="blogimage" class="form-control-file w-100" style="font-size: 0.8rem;">
+                                    </div>
+
+                                    <hr class="my-4">
+
+                                    <div class="d-flex align-items-center mb-4">
+                                        <div class="author-preview-container mr-3">
+                                            <img src="<%= blog.authorImage %>" alt="Author" style="width:100%; height:100%; object-fit:cover;">
+                                        </div>
+                                        <div class="flex-grow-1">
+                                            <label class="form-label mb-0">Author Name</label>
+                                            <input type="text" name="authorname" class="form-control form-control-sm" value="<%= blog.authorname %>">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group mb-4">
+                                        <label class="form-label">Publication Date</label>
+                                        <input type="date" name="publishDate" class="form-control"
+                                            value="<%= blog.publishDate ? blog.publishDate.toISOString().split('T')[0] : '' %>">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="form-label">Replace Author Avatar</label>
+                                        <input type="file" name="authorImage" class="form-control-file w-100" style="font-size: 0.8rem;">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card-footer bg-light border-0 py-4 text-center">
+                            <button type="submit" class="btn btn-main mx-2">
+                                Save Changes
+                            </button>
+                            <a href="/" class="btn btn-cancel mx-2">Discard</a>
+                        </div>
+
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('../footer') %>

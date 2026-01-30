@@ -1,0 +1,204 @@
+<%- include('../header') %>
+
+<style>
+    /* Custom CSS for this page to make it pop */
+    .form-card {
+        border: none;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    }
+    .form-control {
+        border-radius: 8px;
+        padding: 10px 15px;
+        height: auto;
+    }
+    .input-group-text {
+        border-radius: 8px 0 0 8px;
+        background-color: #f8f9fa;
+        border-right: none;
+    }
+    .form-control:focus {
+        box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.15);
+        border-color: #8bb9fe;
+    }
+    /* Profile Image Upload Styling */
+    .profile-upload-container {
+        position: relative;
+        width: 120px;
+        height: 120px;
+        margin: 0 auto 20px;
+    }
+    .profile-preview {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 4px solid #fff;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    .upload-icon {
+        position: absolute;
+        bottom: 5px;
+        right: 5px;
+        background: #27a9e3;
+        color: white;
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        border: 2px solid white;
+        transition: all 0.3s ease;
+    }
+    .upload-icon:hover {
+        background: #1c8bbd;
+        transform: scale(1.1);
+    }
+    #adminImage {
+        display: none; /* Hide the ugly default file input */
+    }
+</style>
+
+<div class="page-wrapper" style="background-color: #f4f6f9;">
+    
+    <div class="page-breadcrumb">
+        <div class="row">
+            <div class="col-12 d-flex no-block align-items-center">
+                <h4 class="page-title text-dark font-weight-bold">Create Administrator</h4>
+                <div class="ml-auto text-right">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb bg-transparent p-0 m-0">
+                            <li class="breadcrumb-item"><a href="#">Home</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Add Admin</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <div class="row d-flex justify-content-center">
+            <div class="col-lg-8 col-md-10">
+                <div class="card form-card bg-white">
+                    <div class="card-body p-4 p-md-5">
+                        
+                        <form class="form-horizontal" action="/admin/add-admin" method="post" enctype="multipart/form-data">
+                            
+                            <div class="text-center mb-4">
+                                <h3 class="mb-2">Admin Profile</h3>
+                                <p class="text-muted">Enter the details below to register a new admin.</p>
+                            </div>
+
+                            <div class="profile-upload-container">
+                                <img src="https://via.placeholder.com/150?text=User" id="previewImg" class="profile-preview" alt="Admin Preview">
+                                <label for="adminImage" class="upload-icon">
+                                    <i class="mdi mdi-camera"></i> </label>
+                                <input type="file" name="image" id="adminImage" accept="image/*" required onchange="previewFile(this)">
+                            </div>
+                            <div class="text-center mb-4">
+                                <small class="text-muted">Click the camera icon to upload</small>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label">Full Name</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="mdi mdi-account"></i></span>
+                                            </div>
+                                            <input type="text" class="form-control" name="name" placeholder="John Doe" required>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label">Email Address</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="mdi mdi-email"></i></span>
+                                            </div>
+                                            <input type="email" class="form-control" name="email" placeholder="john@example.com" required>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mt-2">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label">Password</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="mdi mdi-lock"></i></span>
+                                            </div>
+                                            <input type="password" class="form-control" name="password" id="password" placeholder="••••••••" required>
+                                            <div class="input-group-append">
+                                                <span class="input-group-text bg-white" style="cursor: pointer; border-left: none;">
+                                                    <input type="checkbox" id="togglePassword" class="mr-1"> <small>Show</small>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label">Assign Role</label>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="mdi mdi-security"></i></span>
+                                            </div>
+                                            <select class="form-control" name="role">
+                                                <option value="admin" selected>Admin</option>
+                                                <option value="superadmin">Super Admin</option>
+                                                <option value="editor">Editor</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="border-top mt-4 pt-4 text-center">
+                                <button type="submit" class="btn btn-info btn-lg px-5 text-white" style="border-radius: 50px;">
+                                    <i class="mdi mdi-check-circle mr-1"></i> Create Admin Account
+                                </button>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Preview Image Logic
+    function previewFile(input) {
+        var file = input.files[0];
+        if (file) {
+            var reader = new FileReader();
+            reader.onload = function() {
+                document.getElementById("previewImg").src = reader.result;
+            }
+            reader.readAsDataURL(file);
+        }
+    }
+
+    // Password Toggle Logic
+    const togglePassword = document.querySelector('#togglePassword');
+    const password = document.querySelector('#password');
+
+    togglePassword.addEventListener('change', function (e) {
+        // toggle the type attribute
+        const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+        password.setAttribute('type', type);
+    });
+</script>
+
+<%- include('../footer') %>

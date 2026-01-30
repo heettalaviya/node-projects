@@ -1,0 +1,191 @@
+<%- include('../header') %>
+
+<style>
+    /* Page Background */
+    .page-wrapper {
+        background-color: #f4f7fc;
+        min-height: 100vh;
+    }
+
+    /* Custom Search Input */
+    .search-box {
+        position: relative;
+        max-width: 500px;
+        margin: 0 auto;
+    }
+    .search-input {
+        height: 50px;
+        border-radius: 30px;
+        padding-left: 20px;
+        border: none;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    }
+    .search-input:focus {
+        box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    }
+
+    /* Profile Card Styling */
+    .profile-card {
+        border: none;
+        border-radius: 15px;
+        background: #fff;
+        transition: all 0.3s ease;
+        overflow: hidden;
+        position: relative;
+        margin-bottom: 30px;
+    }
+    
+    .profile-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+    }
+
+    /* Decorative Top Pattern */
+    .card-header-bg {
+        height: 100px;
+        background: linear-gradient(45deg, #2196F3, #6ec6ff);
+        border-radius: 15px 15px 0 0;
+    }
+
+    /* Avatar Styling */
+    .avatar-wrapper {
+        margin-top: -60px;
+        text-align: center;
+    }
+    
+    .profile-img {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        border: 5px solid #fff;
+        object-fit: cover;
+        background-color: #fff;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    /* Role Badge */
+    .role-badge {
+        background-color: #e3f2fd;
+        color: #1565c0;
+        padding: 5px 15px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    /* Action Buttons */
+    .action-btn {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 5px;
+        color: #fff;
+        transition: transform 0.2s;
+        border: none;
+    }
+    .action-btn:hover {
+        transform: scale(1.1);
+        color: #fff;
+        text-decoration: none;
+    }
+    .btn-view { background: #17a2b8; box-shadow: 0 4px 10px rgba(23, 162, 184, 0.3); }
+    .btn-edit { background: #ffc107; box-shadow: 0 4px 10px rgba(255, 193, 7, 0.3); }
+    .btn-delete { background: #dc3545; box-shadow: 0 4px 10px rgba(220, 53, 69, 0.3); }
+
+</style>
+
+<div class="page-wrapper">
+
+    <div class="container-fluid pt-4">
+        <div class="row mb-5 align-items-center">
+            <div class="col-12 text-center">
+                <h3 class="font-weight-bold text-dark mb-3">Admin Team</h3>
+                <div class="search-box">
+                    <input type="text" id="adminSearch" class="form-control search-input" 
+                           placeholder="Search admin by name, email or role...">
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <% admins.forEach((admi, i)=> { %>
+                <div class="col-lg-4 col-md-6 search-item" 
+                     data-name="<%= admi.name.toLowerCase() %>" 
+                     data-email="<%= admi.email.toLowerCase() %>"
+                     data-role="<%= admi.role.toLowerCase() %>">
+                    
+                    <div class="card profile-card">
+                        <div class="card-header-bg"></div>
+                        
+                        <div class="card-body pt-0">
+                            <div class="avatar-wrapper">
+                                <img src="<%= admi.image ? admi.image : 'https://via.placeholder.com/150' %>" 
+                                     class="profile-img" 
+                                     alt="<%= admi.name %>">
+                            </div>
+                            
+                            <div class="text-center mt-3">
+                                <h4 class="font-weight-bold mb-1"><%= admi.name %></h4>
+                                <span class="role-badge"><%= admi.role %></span>
+                                
+                                <p class="text-muted mt-3 mb-4">
+                                    <i class="mdi mdi-email-outline mr-1"></i> <%= admi.email %>
+                                </p>
+
+                                <hr>
+
+                                <div class="d-flex justify-content-center pb-2">
+                                    <a href="/admin/single-view/<%= admi.id %>" class="action-btn btn-view" title="View Profile">
+                                        <i class="mdi mdi-eye"></i>
+                                    </a>
+                                    <a href="/admin/edit-admin/<%= admi.id %>" class="action-btn btn-edit" title="Edit Admin">
+                                        <i class="mdi mdi-pencil"></i>
+                                    </a>
+                                    <a href="/admin/delete-admin/<%= admi.id %>" class="action-btn btn-delete" title="Delete Admin" onclick="return confirm('Are you sure you want to delete this admin?');">
+                                        <i class="mdi mdi-delete"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <% }) %>
+        </div>
+
+        <% if(admins.length === 0) { %>
+            <div class="row">
+                <div class="col-12 text-center mt-5">
+                    <h4 class="text-muted">No admins found.</h4>
+                    <a href="/admin/add-admin" class="btn btn-primary mt-3">Create New Admin</a>
+                </div>
+            </div>
+        <% } %>
+
+    </div>
+</div>
+
+<script>
+    document.getElementById('adminSearch').addEventListener('keyup', function() {
+        let filter = this.value.toLowerCase();
+        let items = document.querySelectorAll('.search-item');
+
+        items.forEach(function(item) {
+            let name = item.getAttribute('data-name');
+            let email = item.getAttribute('data-email');
+            let role = item.getAttribute('data-role');
+
+            if (name.includes(filter) || email.includes(filter) || role.includes(filter)) {
+                item.style.display = 'block';
+            } else {
+                item.style.display = 'none';
+            }
+        });
+    });
+</script>
+
+<%- include('../footer') %>

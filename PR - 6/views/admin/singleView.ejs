@@ -1,0 +1,164 @@
+<%- include('../header') %>
+
+<style>
+    /* Profile Card Styling */
+    .profile-sidebar {
+        background: #fff;
+        border-radius: 15px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+        overflow: hidden;
+        text-align: center;
+        height: 100%;
+    }
+
+    /* Top colored section of the sidebar */
+    .profile-header-cover {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        height: 120px;
+    }
+
+    /* The Avatar Image */
+    .profile-img-container {
+        margin-top: -60px;
+        position: relative;
+    }
+
+    .profile-img-lg {
+        width: 140px;
+        height: 140px;
+        border-radius: 50%;
+        border: 5px solid #fff;
+        object-fit: cover;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        background-color: #fff;
+    }
+
+    /* Right Side Content Card */
+    .profile-content {
+        background: #fff;
+        border-radius: 15px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+        padding: 30px;
+        height: 100%;
+    }
+
+    /* Typography */
+    .label-text {
+        font-weight: 600;
+        color: #6c757d;
+        text-transform: uppercase;
+        font-size: 0.8rem;
+    }
+
+    .info-text {
+        font-weight: 500;
+        color: #333;
+        font-size: 1rem;
+    }
+
+    .section-title {
+        border-bottom: 2px solid #f0f2f5;
+        padding-bottom: 10px;
+        margin-bottom: 20px;
+        font-weight: 700;
+        color: #343a40;
+    }
+</style>
+
+<div class="page-wrapper" style="background-color: #f4f6f9; min-height: 100vh;">
+    
+    <div class="page-breadcrumb">
+        <div class="row">
+            <div class="col-12 d-flex no-block align-items-center">
+                <h4 class="page-title">Admin Profile</h4>
+                <div class="ml-auto text-right">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb bg-transparent p-0 m-0">
+                            <li class="breadcrumb-item"><a href="/admin">Home</a></li>
+                            <li class="breadcrumb-item"><a href="/admin/view-admin">Admins</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Profile</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <div class="row">
+            
+            <div class="col-md-4 mb-4">
+                <div class="profile-sidebar pb-4">
+                    <div class="profile-header-cover"></div>
+                    
+                    <div class="profile-img-container">
+                        <img src="<%= admin.image %>" class="profile-img-lg" alt="Admin Avatar" 
+                             onerror="this.src='https://via.placeholder.com/150'">
+                    </div>
+
+                    <div class="mt-3 px-3">
+                        <h3 class="font-weight-bold text-dark mb-1"><%= admin.name %></h3>
+                        
+                        <% if(admin.role === 'superadmin') { %>
+                            <span class="badge badge-danger px-3 py-2 mt-1">Super Admin</span>
+                        <% } else if(admin.role === 'admin') { %>
+                            <span class="badge badge-primary px-3 py-2 mt-1">Admin</span>
+                        <% } else { %>
+                            <span class="badge badge-info px-3 py-2 mt-1">Editor</span>
+                        <% } %>
+                    </div>
+
+                    <div class="mt-4 px-4">
+                        <a href="mailto:<%= admin.email %>" class="btn btn-outline-primary btn-block rounded-pill">
+                            <i class="mdi mdi-email-outline mr-2"></i> Send Email
+                        </a>
+                        <a href="/admin/edit-admin/<%= admin.id %>" class="btn btn-outline-secondary btn-block rounded-pill mt-2">
+                            <i class="mdi mdi-pencil mr-2"></i> Edit Profile
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-8 mb-4">
+                <div class="profile-content">
+                    
+                    <h5 class="section-title"><i class="mdi mdi-information-outline mr-2"></i>About</h5>
+                    <div class="mb-4">
+                        <p class="text-muted" style="line-height: 1.8;">
+                            <%= admin.description ? admin.description : "No description provided for this admin." %>
+                        </p>
+                    </div>
+
+                    <h5 class="section-title mt-5"><i class="mdi mdi-account-card-details mr-2"></i>Personal Information</h5>
+                    
+                    <div class="row mb-3">
+                        <div class="col-sm-4 label-text">Full Name</div>
+                        <div class="col-sm-8 info-text"><%= admin.name %></div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-sm-4 label-text">Email Address</div>
+                        <div class="col-sm-8 info-text"><%= admin.email %></div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-sm-4 label-text">Role</div>
+                        <div class="col-sm-8 info-text" style="text-transform: capitalize;"><%= admin.role %></div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-sm-4 label-text">Account Status</div>
+                        <div class="col-sm-8 text-success font-weight-bold"><i class="mdi mdi-check-circle"></i> Active</div>
+                    </div>
+
+                    <div class="mt-5 text-right">
+                        <a href="/admin/view-admin" class="btn btn-light border shadow-sm px-4">
+                            <i class="mdi mdi-arrow-left mr-1"></i> Back to List
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<%- include('../footer') %>
